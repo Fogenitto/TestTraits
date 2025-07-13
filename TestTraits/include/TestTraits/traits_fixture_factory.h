@@ -3,6 +3,8 @@
 
 #include <gtest/gtest.h>
 
+namespace test_traits {
+namespace detail {
 #define CALL_IF_HAS_METHOD(NAME)                                                     \
     if constexpr (std::experimental::is_detected<NAME##_method, BaseClass>::value) { \
         BaseClass::NAME();                                                           \
@@ -39,9 +41,12 @@ public:
     }
 };
 
+} // namespace detail
+} // namespace test_traits
+
 // Сначала явно инстанцируем трейт потому что так мы точно будем уверены что инстанцируются все методы
 // В принципе можно обойтись и без этого, но так будет безопаснее т.к. отловим все синтаксические ошибки в классе
 // Способ удобнее задать имя для фикстуры я не придумал
-#define TEST_TRAIT_INIT(TRAIT_FIXTURE_NAME, TRAIT_FIXTURE)       \
-    template class FinalTestFixtureStaticFactory<TRAIT_FIXTURE>; \
-    using TRAIT_FIXTURE_NAME = FinalTestFixtureStaticFactory<TRAIT_FIXTURE>;
+#define TRAIT_FIXTURE_INIT(TRAIT_FIXTURE_NAME, TRAIT_FIXTURE)                         \
+    template class test_traits::detail::FinalTestFixtureStaticFactory<TRAIT_FIXTURE>; \
+    using TRAIT_FIXTURE_NAME = test_traits::detail::FinalTestFixtureStaticFactory<TRAIT_FIXTURE>;

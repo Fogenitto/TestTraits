@@ -4,6 +4,9 @@
 
 #include <tuple>
 
+namespace test_traits {
+namespace detail {
+
 // yeeeee, this is fu..ed up
 // instantiate method only if it exist in some trait (good for binary weight)
 // than call N lambdas, where N - number of traits.
@@ -34,8 +37,8 @@
     }
 
 template<typename TraitsList, template<typename BaseClass> typename... Traits>
-class TraitsFixtureStaticFactory : public TraitsList,
-                                   public Traits<TraitsList>... {
+class TraitsGroupStaticFactory : public TraitsList,
+                                 public Traits<TraitsList>... {
 public:
     TEST_TRAIT_METHOD(doBeforeSetUp)
     TEST_TRAIT_METHOD(doAfterSetUp)
@@ -49,9 +52,11 @@ public:
     STATIC_TEST_TRAIT_METHOD(doBeforeTearDownTestCase)
     STATIC_TEST_TRAIT_METHOD(doAfterTearDownTestCase)
 };
+} // namespace detail
+} // namespace test_traits
 
 // -Ебанет?
 // -Да вроде не должно. (This macro wasn't tested)
 #define MAKE_TRAIT_GROUP(NAME, ...) \
     template<typename BaseClass>    \
-    using NAME = TraitsFixtureStaticFactory<BaseClass, ...>;
+    using NAME = test_traits::detail::TraitsGroupStaticFactory<BaseClass, __VA_ARGS__>;

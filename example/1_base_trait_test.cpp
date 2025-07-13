@@ -74,9 +74,8 @@ public:
 // В нашем случае это множество из одного трейта, но так то их кол-во неограниченно (теоритически)
 
 // TODO: возможно это стоит запихнуть это в отдельный обязательный макрос
-#include <TestTraits/fixture_traits_factory.h>
-template<typename BaseClass>
-using PrinterTraitConstructor = TraitsFixtureStaticFactory<BaseClass, memePrinter /*, someOtherTraits...  */>;
+#include <TestTraits/traits_group_factory.h>
+MAKE_TRAIT_GROUP(PrinterTraitConstructor, memePrinter)
 
 // Теперь самое интересное - как использовать трейты
 
@@ -102,8 +101,8 @@ public:
 };
 
 // Ну а дальше даем макросу сконструировать нам итоговый тест сьют (йес, айм фром ингланд)
-#include <TestTraits/test_fixture_factory.h>
-TEST_TRAIT_INIT(Traits_fixture_test, dummy)
+#include <TestTraits/traits_fixture_factory.h>
+TRAIT_FIXTURE_INIT(Traits_fixture_test, dummy)
 
 TEST_F(Traits_fixture_test, Positive_traitsTest) {
     std::cout << "Test body!\n";

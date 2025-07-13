@@ -27,9 +27,8 @@ public:
     int getNum() { return num; }
 };
 
-#include <TestTraits/fixture_traits_factory.h>
-template<typename BaseClass>
-using AbobaInputerTraitConstructor = TraitsFixtureStaticFactory<BaseClass, abobaInputer>;
+#include <TestTraits/traits_group_factory.h>
+MAKE_TRAIT_GROUP(AbobaInputerTraitConstructor, abobaInputer)
 
 class Empty {};
 
@@ -38,8 +37,8 @@ public:
     void doSetUp() { std::cout << "Aboba printed on " << getNum() << " atempt!\n"; }
 };
 
-#include <TestTraits/test_fixture_factory.h>
-TEST_TRAIT_INIT(Traits_members_test, dummy3)
+#include <TestTraits/traits_fixture_factory.h>
+TRAIT_FIXTURE_INIT(Traits_members_test, dummy3)
 
 TEST_F(Traits_members_test, Positive_traitsTest) {
     std::cout << "You printed " << word << " word... You are clown.\n";

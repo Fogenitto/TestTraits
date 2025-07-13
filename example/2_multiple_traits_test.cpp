@@ -95,9 +95,8 @@ public:
     }
 };
 
-#include <TestTraits/fixture_traits_factory.h>
-template<typename BaseClass>
-using MultiplePrinterTraitConstructor = TraitsFixtureStaticFactory<BaseClass, printer1, printer2, printer3>;
+#include <TestTraits/traits_group_factory.h>
+MAKE_TRAIT_GROUP(MultiplePrinterTraitConstructor, printer1, printer2, printer3)
 
 class printer_traits {
 public:
@@ -117,8 +116,8 @@ public:
     void doTearDown() { std::cout << "Test TearDown of base class\n"; }
 };
 
-#include <TestTraits/test_fixture_factory.h>
-TEST_TRAIT_INIT(Multiple_traits_test, dummy2)
+#include <TestTraits/traits_fixture_factory.h>
+TRAIT_FIXTURE_INIT(Multiple_traits_test, dummy2)
 
 TEST_F(Multiple_traits_test, Positive_traitsTest) {
     std::cout << "Test body!\n";
